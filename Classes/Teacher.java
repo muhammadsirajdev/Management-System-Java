@@ -1,64 +1,75 @@
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-class Teacher extends Person implements Reportable {
-    private Course[] courses = new Course[5];
+
+public class Teacher extends Person implements Reportable {
     private int teacherId;
-    private String Specialization;
-    private  static int Countteacher=0;
+    private String specialization;
+    private Course[] assignedCourses = new Course[5];
+    private  static int totalTeachers = 0;
 
-    Teacher(){};
+    Teacher(){
+        super();
+        teacherId = 0;
+        specialization = null;
+        totalTeachers++;
+    };
 
     public Teacher(String name, String email, Date dateOfBirth, int teacherId, String specialization) {
         super(name, email, dateOfBirth);
         this.teacherId = teacherId;
-        Specialization = specialization;
-        Countteacher++;
+        this.specialization = specialization;
+        totalTeachers++;
     }
 
-    public Course[] getCourse() {
-        return courses;
+    // Getters
+    public static int getTotalTeachers() {
+        return totalTeachers;
     }
 
-
+    public Course[] getAssignedCourse() {
+        return assignedCourses;
+    }
 
     public int getTeacherId() {
         return teacherId;
     }
 
+    public String getSpecialization() {
+        return specialization;
+    }
+
+
+    // setters 
+
     public void setTeacherId(int teacherId) {
         this.teacherId = teacherId;
     }
 
-    public String getSpecialization() {
-        return Specialization;
-    }
-
     public void setSpecialization(String specialization) {
-        Specialization = specialization;
+        this.specialization = specialization;
     }
 
-    public int getCountTeacher() {
-        return Countteacher;
-    }
+
 
     public void assignCourse(Course course) {
-        for (int i = 0; i < courses.length; i++) {//as i've predefined that a teacher
+        for (int i = 0; i < assignedCourses.length ; i++ ) {//as i've predefined that a teacher
             //can only have 5 courses at max, so this for loop will add courses
-            if (courses[i] == null) {//checks for empty space
-                courses[i] = course;
+            if (assignedCourses[i] == null) {//checks for empty space
+                assignedCourses[i] = course;
                 System.out.println("Teacher " + getName() + " assigned to teach " + course.getTitle());
                 return;
             }
         }
         System.out.println("Cannot assign more courses. Maximum limit reached.");
     }
+
+
     public void displayCourses() {
-        System.out.println("Lists all the courses taught by the teacher "+super.getName());
-        if (courses.length!=0){//is lenght of array>0, it means it has course
-            for (Course element: courses){
-                System.out.println(element.getTitle());
+        System.out.println("All the courses taught by the teacher "+ super.getName()+ " are:");
+        if (assignedCourses.length != 0){ //is length of array > 0, it means it has course
+            for (Course element: assignedCourses){
+                System.out.println( " Course ID: "+element.getCourseId()+" Course Title: "+element.getTitle());
             }
         }else {
             System.out.println("No course has been taught");
@@ -66,12 +77,13 @@ class Teacher extends Person implements Reportable {
     }
 
 
-    public String displayDetails(){
+    @Override
+    public String toString(){
         String details = "Teacher Details:\n";
         details += "ID: " + teacherId + "\n";
-        details += "Name: " + super.getName() + "\n";
-        details += "Specialization: " + Specialization + "\n";
-        details += "Total Courses: " + courses.length + "\n";
+        details += "Name: " + getName() + "\n";
+        details += "Specialization: " + specialization + "\n";
+        details += "Total Courses: " + assignedCourses.length + "\n";
         return details;
     }
 
@@ -81,7 +93,7 @@ class Teacher extends Person implements Reportable {
         String report = "Teacher Report Summary:\n";
         int courseCount = 0;
 
-        for (Course course : courses) {
+        for (Course course : assignedCourses) {
             if (course != null) {
                 courseCount++;
             }
@@ -89,7 +101,7 @@ class Teacher extends Person implements Reportable {
 
         report += "Teacher ID: " + teacherId + "\n";
         report += "Name: " + getName() + "\n";
-        report += "Specialization: " + Specialization + "\n";
+        report += "Specialization: " + specialization + "\n";
         report += "Total Courses Taught: " + courseCount + "\n";
 
         return report;

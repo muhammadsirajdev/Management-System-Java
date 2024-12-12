@@ -1,41 +1,129 @@
+import java.util.ArrayList;
+
 public class University {
-   private Course course= new Course();
-    private Teacher teacher= new Teacher();
-    private Student student=new Student();
-    University(){};
+    private Repository<Student> studentRepository;
+    private Repository<Teacher> teacherRepository;
+    private Repository<Course> courseRepository;
+    private Repository<AdministrativeStaff> staffRepository;
 
-    public University(Course course, Teacher teacher, Student student) {
-        this.course = course;
-        this.teacher = teacher;
-        this.student = student;
-    }
-
-    public Course getCourse() {
-        return course;
+    public University() {
+        studentRepository = new Repository<>();
+        teacherRepository = new Repository<>();
+        courseRepository = new Repository<>();
+        staffRepository = new Repository<>();
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    // Add methods
+    public void addStudent(Student student) {
+        studentRepository.add(student);
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public void addTeacher(Teacher teacher) {
+        teacherRepository.add(teacher);
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void addCourse(Course course) {
+        courseRepository.add(course);
     }
 
-    public Student getStudent() {
-        return student;
+    public void addStaff(AdministrativeStaff staff) {
+        staffRepository.add(staff);
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    // Remove methods
+    public void removeStudent(Student student) {
+        studentRepository.remove(student);
     }
-    void displaySystemStats(){
-        System.out.println("Total Number of Students: "+ student.getTotalStudent());
-        System.out.println("Total Number of Teacher: "+ teacher.getCountTeacher());
-        System.out.println("Total Number of Courses: "+ course.getCourseCount());
+
+    public void removeTeacher(Teacher teacher) {
+        teacherRepository.remove(teacher);
     }
+
+    public void removeCourse(Course course) {
+        courseRepository.remove(course);
+    }
+
+    public void removeStaff(AdministrativeStaff staff) {
+        staffRepository.remove(staff);
+    }
+
+    // Assign relationships
+    public void assignTeacherToCourse(Teacher teacher, Course course) {
+        teacher.assignCourse(course);
+        course.setAssignedTeacher(teacher);
+    }
+
+    public void enrollStudentInCourse(Student student, Course course) {
+        student.enrollInCourse(course);
+        course.addStudent(student);
+    }
+
+    
+    public static void displaySystemStats() {
+        System.out.println("University System Stats:");
+        System.out.println("Total Students: " + Student.getTotalStudent());
+        System.out.println("Total Teachers: " + Teacher.getTotalTeachers());
+        System.out.println("Total Courses: " + Course.getTotalCourses());
+        
+    }
+
+
+
+    // Search methods
+
+    public ArrayList<Student> searchStudentByName(String name){
+        //Returns a list of students with matching names
+        ArrayList<Student> students = new ArrayList<>();
+        for(Student student : studentRepository.getAll()){
+            if(student.getName().contains(name)){
+                students.add(student);
+            }
+        }
+        return students; // confirm with teacher whether to return the list or print the students name
+    }
+
+    public ArrayList<Course> filterCoursesByCredits(int minCredits){
+        
+        ArrayList<Course> courses = new ArrayList<>();
+
+        for(Course course : courseRepository.getAll()){
+            if(course.getCredits() >= minCredits){
+                courses.add(course);
+            }
+        }
+        return courses;
+    }
+
+// additional methods, not asked by mam
+    public Student findStudentById(int studentId) {
+        for (Student student : studentRepository.getAll()) {
+            if (student.getStudentId() == studentId) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public Teacher findTeacherById(int teacherId) {
+        for (Teacher teacher : teacherRepository.getAll()) {
+            if (teacher.getTeacherId() == teacherId) {
+                return teacher;
+            }
+        }
+        return null;
+    }
+
+    public Course findCourseById(int courseId) {
+        for (Course course : courseRepository.getAll()) {
+            if (course.getCourseId() == courseId) {
+                return course;
+            }
+        }
+        return null;
+    }
+
+
+
 }
+
+

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Course {
     private int courseId;
@@ -7,13 +8,14 @@ public class Course {
     private Teacher assignedTeacher;
     private ArrayList<Student> enrolledStudents = new ArrayList<Student>();
     private ArrayList<Double> grades = new ArrayList<>();
-    private static int CourseCount=0;
+    private static int totalCourses = 0;
 
     public Course(){
         courseId = 0;
         title = null;
         credits = 0;
         assignedTeacher = null;
+        totalCourses++;
     }
 
     public Course(int courseId, String title, int credits, Teacher assignedTeacher) {
@@ -21,46 +23,51 @@ public class Course {
         this.title = title;
         this.credits = credits;
         this.assignedTeacher = assignedTeacher;
-        CourseCount++;
+        totalCourses++;
     }
-    public int getCourseCount(){return CourseCount;}
+
+    // getters
+    public static int getTotalCourses(){return totalCourses;}
 
     public int getCourseId() {
         return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public int getCredits() {
         return credits;
-    }
-
-    public void setCredits(int credits) {
-        this.credits = credits;
     }
 
     public Teacher getAssignedTeacher() {
         return assignedTeacher;
     }
 
+    // setters 
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     public void setAssignedTeacher(Teacher assignedTeacher) {
         this.assignedTeacher = assignedTeacher;
     }
 
+
     public void addStudent(Student student){
         enrolledStudents.add(student);
         grades.add(0.0);
-        System.out.println("Student "+student.getStudentId()+"  added to " + title);
+        System.out.println("Student "+student.getStudentId()+" added to " + title);
     }
 
     public void removeStudent(Student student){
@@ -68,9 +75,9 @@ public class Course {
         if (index != -1) {
             enrolledStudents.remove(index);
             grades.remove(index);
-            System.out.println("Student "+student.getStudentId()+"  removed from " + title);
+            System.out.println("Student "+student.getStudentId()+" removed from " + title);
         } else {
-            System.out.println("Student "+student.getStudentId()+"  is not enrolled in " + title);
+            System.out.println("Student "+student.getStudentId()+" is not enrolled in " + title);
         }
     }
 
@@ -110,5 +117,18 @@ public class Course {
         System.out.println("Average grade for " + title + " is " + average);
     }
 
+    public double calculateMedianGrade(){
+
+        int size = grades.size();
+        boolean isEven = size % 2 == 0;
+        ArrayList<Double> sortedGrades = new ArrayList<>(grades);
+        Collections.sort(sortedGrades);
+
+        if (isEven) {
+            return (sortedGrades.get(size / 2 - 1) + sortedGrades.get(size / 2)) / 2.0;
+        } else {
+            return sortedGrades.get(size / 2);
+        }
+    }
 }
 

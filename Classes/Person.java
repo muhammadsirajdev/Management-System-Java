@@ -12,9 +12,9 @@ public class Person {
     }
 
     public Person(String name, String email, Date dateOfBirth){
-        setName(name);
-        setEmail(email);
-        setDateOfBirth(dateOfBirth);
+        this.name = name;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setName(String name){
@@ -40,7 +40,9 @@ public class Person {
     public Date getDateOfBirth(){
         return dateOfBirth;
     }
-    public String displayDetails() {
+    
+    @Override
+    public String toString() {
         return "Name: " + name + "\nEmail: " + email + "\nDate of Birth: " + dateOfBirth;
     }
 }
