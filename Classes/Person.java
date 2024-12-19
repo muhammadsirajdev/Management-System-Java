@@ -41,6 +41,11 @@ public class Person {
         return dateOfBirth;
     }
     
+    public void displayDetails(){
+        System.out.println(" Name: "+ getName() + "\n Email: "+ getEmail() + "\n Date of Birth: "+ getDateOfBirth());
+    }
+
+
     @Override
     public String toString() {
         return "Name: " + name + "\nEmail: " + email + "\nDate of Birth: " + dateOfBirth;

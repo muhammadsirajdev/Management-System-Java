@@ -79,7 +79,7 @@ public class University {
                 students.add(student);
             }
         }
-        return students; // confirm with teacher whether to return the list or print the students name
+        return students; 
     }
 
     public ArrayList<Course> filterCoursesByCredits(int minCredits){

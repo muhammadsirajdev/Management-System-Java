@@ -76,6 +76,14 @@ public class Teacher extends Person implements Reportable {
         }
     }
 
+    @Override
+    public void displayDetails(){
+        super.displayDetails();
+        System.out.println("Teacher ID: " + teacherId);
+        System.out.println("Specialization: " + specialization);
+        
+    }
+
 
     @Override
     public String toString(){

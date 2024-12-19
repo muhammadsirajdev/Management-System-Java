@@ -70,6 +70,14 @@ public class Student extends Person{
     }
 
     @Override
+    public void displayDetails(){
+        super.displayDetails();
+        System.out.println("Student ID: " + getStudentId());
+        System.out.println("Address: " + getAddress());
+        
+    }
+
+    @Override
     public String toString() {
         String details = "Student Details:\n";
         details += "ID: " + getStudentId() + "\n";
