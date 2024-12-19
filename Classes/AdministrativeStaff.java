@@ -1,10 +1,12 @@
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 interface Reportable {
     String generateReport(ArrayList<Person> people);
-
+    
+    void exportToFile();
 }
 
 public class AdministrativeStaff extends Person implements Reportable{
@@ -71,6 +73,22 @@ public class AdministrativeStaff extends Person implements Reportable{
         report+="Total Administrative: "+ StaffCounter +"\n";
         return report;
     }
+
+    @Override
+    public void exportToFile(){
+        try{
+            FileWriter myWriter = new FileWriter("report.txt");
+            myWriter.write("Report Summary:\n");
+            myWriter.write("Total Students: " + Student.getTotalStudent() + "\n");
+            myWriter.write("Total Teacher: " + Teacher.getTotalTeachers() + "\n");
+            myWriter.write("Total Courses: " + Course.getTotalCourses() + "\n");
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        }catch(IOException e){
+            System.err.println("An error occurred while writing to the file: " + e.getMessage());
+        }
+    }
+
 
     @Override
     public String toString() {

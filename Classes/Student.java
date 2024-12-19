@@ -43,12 +43,16 @@ public class Student extends Person{
     }
 
     public void setAddress(String address) {
+        if (address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address cannot be null or empty");
+        }
         this.address = address;
     }
 
-
-
     public void enrollInCourse(Course course){
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
         for (int i = 0; i < enrolledCourses.length; i++) {
             if (enrolledCourses[i] == null) {
                 enrolledCourses[i] = course;
@@ -58,7 +62,6 @@ public class Student extends Person{
         }
         System.out.println("You are already enrolled in 5 courses. You cannot enroll in more.");
     }
-
 
     public void displayCourses(){
         System.out.println("Student "+ getStudentId()+ " is enrolled in the following courses: \n"  );

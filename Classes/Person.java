@@ -18,6 +18,9 @@ public class Person {
     }
 
     public void setName(String name){
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
         this.name = name;
     }
 
@@ -26,6 +29,9 @@ public class Person {
     }
 
     public void setEmail(String email){
+        if (email == null || email.trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
         this.email = email;
     }
 
@@ -34,6 +40,9 @@ public class Person {
     }
 
     public void setDateOfBirth(Date dateOfBirth){
+        if (dateOfBirth == null) {
+            throw new IllegalArgumentException("Date of Birth cannot be null");
+        }
         this.dateOfBirth = dateOfBirth;
     }
 

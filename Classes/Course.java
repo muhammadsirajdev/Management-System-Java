@@ -65,12 +65,18 @@ public class Course {
 
 
     public void addStudent(Student student){
+        if (student == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
         enrolledStudents.add(student);
         grades.add(0.0);
         System.out.println("Student "+student.getStudentId()+" added to " + title);
     }
 
     public void removeStudent(Student student){
+        if (student == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
         int index = enrolledStudents.indexOf(student);
         if (index != -1) {
             enrolledStudents.remove(index);
@@ -82,6 +88,9 @@ public class Course {
     }
 
     public void setGrade(Student student, double grade) {
+        if (student == null) {
+            throw new IllegalArgumentException("Student cannot be null");
+        }
         if (grade < 0 || grade > 100) {
             throw new IllegalArgumentException("Grade must be between 0 and 100");
         }

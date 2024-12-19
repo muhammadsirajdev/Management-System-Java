@@ -43,16 +43,25 @@ public class Teacher extends Person implements Reportable {
     // setters 
 
     public void setTeacherId(int teacherId) {
+        if (teacherId < 0) {
+            throw new IllegalArgumentException("Teacher ID cannot be less than 0");
+        }
         this.teacherId = teacherId;
     }
 
     public void setSpecialization(String specialization) {
+        if (specialization == null || specialization.trim().isEmpty()) {
+            throw new IllegalArgumentException("Specialization cannot be null or empty");
+        }
         this.specialization = specialization;
     }
 
 
 
     public void assignCourse(Course course) {
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
         for (int i = 0; i < assignedCourses.length ; i++ ) {//as i've predefined that a teacher
             //can only have 5 courses at max, so this for loop will add courses
             if (assignedCourses[i] == null) {//checks for empty space
@@ -96,8 +105,7 @@ public class Teacher extends Person implements Reportable {
     }
 
     @Override
-    public String generateReport(ArrayList<Person> people) {//dk reason for passing
-        //the parameter
+    public String generateReport(ArrayList<Person> people) {
         String report = "Teacher Report Summary:\n";
         int courseCount = 0;
 

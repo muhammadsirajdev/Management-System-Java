@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.ArrayList;
 
 public class University {
@@ -15,35 +16,67 @@ public class University {
 
     // Add methods
     public void addStudent(Student student) {
+        if (student == null) {
+            System.err.println("Invalid student input.");
+            return;
+        }
         studentRepository.add(student);
     }
 
     public void addTeacher(Teacher teacher) {
+        if (teacher == null) {
+            System.err.println("Invalid teacher input.");
+            return;
+        }
         teacherRepository.add(teacher);
     }
 
     public void addCourse(Course course) {
+        if (course == null) {
+            System.err.println("Invalid course input.");
+            return;
+        }
         courseRepository.add(course);
     }
 
     public void addStaff(AdministrativeStaff staff) {
+        if (staff == null) {
+            System.err.println("Invalid staff input.");
+            return;
+        }
         staffRepository.add(staff);
     }
 
     // Remove methods
     public void removeStudent(Student student) {
+        if (student == null) {
+            System.err.println("Invalid student input.");
+            return;
+        }
         studentRepository.remove(student);
     }
 
     public void removeTeacher(Teacher teacher) {
+        if (teacher == null) {
+            System.err.println("Invalid teacher input.");
+            return;
+        }
         teacherRepository.remove(teacher);
     }
 
     public void removeCourse(Course course) {
+        if (course == null) {
+            System.err.println("Invalid course input.");
+            return;
+        }
         courseRepository.remove(course);
     }
 
     public void removeStaff(AdministrativeStaff staff) {
+        if (staff == null) {
+            System.err.println("Invalid staff input.");
+            return;
+        }
         staffRepository.remove(staff);
     }
 
@@ -122,7 +155,40 @@ public class University {
         return null;
     }
 
+    // Save data to file
+    public void saveData(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            System.err.println("Invalid filename.");
+            return;
+        }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(studentRepository.getAll());
+            oos.writeObject(teacherRepository.getAll());
+            oos.writeObject(courseRepository.getAll());
+            oos.writeObject(staffRepository.getAll());
+            System.out.println("Data saved successfully to " + filename);
+        } catch (IOException e) {
+            System.err.println("Error saving data: " + e.getMessage());
+        }
+    }
 
+    // Load data from file
+    @SuppressWarnings("unchecked")
+    public void loadData(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            System.err.println("Invalid filename.");
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+            studentRepository.setAll((ArrayList<Student>) ois.readObject());
+            teacherRepository.setAll((ArrayList<Teacher>) ois.readObject());
+            courseRepository.setAll((ArrayList<Course>) ois.readObject());
+            staffRepository.setAll((ArrayList<AdministrativeStaff>) ois.readObject());
+            System.out.println("Data loaded successfully from " + filename);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading data: " + e.getMessage());
+        }
+    }
 
 }
 
