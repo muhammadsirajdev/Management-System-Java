@@ -86,6 +86,7 @@ public class University {
         course.setAssignedTeacher(teacher);
     }
 
+
     public void enrollStudentInCourse(Student student, Course course) {
         student.enrollInCourse(course);
         course.addStudent(student);
@@ -99,8 +100,6 @@ public class University {
         System.out.println("Total Courses: " + Course.getTotalCourses());
         
     }
-
-
 
     // Search methods
 
