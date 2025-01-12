@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Date;
 
-public class Person {
+public class Person implements Serializable{
     private String name;
     private String email;
     private Date dateOfBirth;
@@ -53,7 +54,6 @@ public class Person {
     public void displayDetails(){
         System.out.println(" Name: "+ getName() + "\n Email: "+ getEmail() + "\n Date of Birth: "+ getDateOfBirth());
     }
-
 
     @Override
     public String toString() {

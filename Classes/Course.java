@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Course {
+public class Course implements Serializable{
     private int courseId;
     private String title;
     private int credits;
@@ -63,6 +64,7 @@ public class Course {
         this.assignedTeacher = assignedTeacher;
     }
 
+                        // METHODS ASEKD BY MAM
 
     public void addStudent(Student student){
         if (student == null) {
@@ -112,10 +114,10 @@ public class Course {
         }
     }
 
-    public void calculateAverageGrade() {
+    public double calculateAverageGrade() {
         if (enrolledStudents.isEmpty()) {
             System.out.println("No students enrolled in " + title);
-            return;
+            return 0;
         }
 
         double total = 0;
@@ -124,9 +126,15 @@ public class Course {
         }
         double average = total / grades.size();
         System.out.println("Average grade for " + title + " is " + average);
+        return average;
     }
 
     public double calculateMedianGrade(){
+
+        if (enrolledStudents.isEmpty()) {
+            System.out.println("No students enrolled in " + title);
+            return 0;
+        }
 
         int size = grades.size();
         boolean isEven = size % 2 == 0;
@@ -139,5 +147,52 @@ public class Course {
             return sortedGrades.get(size / 2);
         }
     }
+
+    @Override
+    public String toString() {
+        return 
+                "Course Id = " + courseId +
+                "\nTitle = " + title + 
+                " \nCredits = " + credits 
+                // "\nassignedTeacher = " + assignedTeacher +
+                // "\nenrolledStudents = " + enrolledStudents +
+                // "\ngrades = " + grades 
+                ;
+    }
+
+    public static void decrementTotalCourses(){
+        totalCourses--;
+    }
+
+            // METHODS FOR BETTER GUI IMPLEMENTATION (NOT ASKED BY MAM )
+
+    // isEnrolled
+    public boolean isEnrolled(Student student){
+        return enrolledStudents.contains(student);
+    }
+
+    // isAssigned
+    public boolean isAssigned(Teacher teacher){
+        return assignedTeacher.equals(teacher);
+    }
+
+    //removeTeacher
+    public void removeTeacher(){
+        assignedTeacher = null;
+    }
+
+    //setTotalCourses 
+    public static void setTotalCourses(int totalCourses){
+        if (totalCourses < 0) {
+            throw new IllegalArgumentException("Total Courses cannot be less than 0");
+        }
+        Course.totalCourses = totalCourses;
+    }
+
+    // getenrolledstudents
+    public ArrayList<Student> getEnrolledStudents(){
+        return enrolledStudents;
+    }
+        
 }
 

@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Student extends Person{
+public class Student extends Person {
     private int studentId;
     private String address;
     Course[] enrolledCourses = new Course[5];
@@ -33,6 +33,10 @@ public class Student extends Person{
         return address;
     }
 
+    public Course[] getCourses(){
+        return enrolledCourses;
+    }
+
     // setters
 
     public void setStudentId(int studentId) {
@@ -48,6 +52,17 @@ public class Student extends Person{
         }
         this.address = address;
     }
+
+    // setTotalStudent
+    public static void setTotalStudent(int totalStudent){
+        if (totalStudent < 0) {
+            throw new IllegalArgumentException("Total Student cannot be less than 0");
+        }
+        TotalStudent = totalStudent;
+    }
+
+
+                    // METHODS ASKED BY MAM
 
     public void enrollInCourse(Course course){
         if (course == null) {
@@ -72,6 +87,7 @@ public class Student extends Person{
         }
     }
 
+
     @Override
     public void displayDetails(){
         super.displayDetails();
@@ -86,14 +102,57 @@ public class Student extends Person{
         details += "ID: " + getStudentId() + "\n";
         details += "Name: " + getName() + "\n";
         details += "Address: " + getAddress() + "\n";
-        details += "Enrolled Courses:\n";
-        for (Course course : enrolledCourses) {
-            if (course != null) {
-                details += "- " + course.getTitle() + "\n";
+        details += "Enrolled Courses: "+ getEnrolledCourseCount() + "\n";
+        
+        return details;
+    }
+
+                        // ADDITIONAL METHDOS FOR BETTER GUI EXPERIENCE (NOT ASKED BY MAM)
+                        
+    public String getCourseDetails(){
+
+        if(getEnrolledCourseCount() == 0){
+            return "No course has been assigned to the student";
+        }
+
+        String details = "Student "+ getStudentId()+ " is enrolled in the following courses: \n"  ;
+        for (Course enrolledCourse : enrolledCourses) {
+            if (enrolledCourse != null) {
+                details += "Course id: " + enrolledCourse.getCourseId() + " Course name: " + enrolledCourse.getTitle() + "\n";
             }
         }
         return details;
     }
 
+
+    public void removeCourse(Course course) {
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
+        for (int i = 0; i < enrolledCourses.length; i++) {
+            if (enrolledCourses[i] != null && enrolledCourses[i].getCourseId() == course.getCourseId()) {
+                enrolledCourses[i] = null;
+                System.out.println("Student " + getStudentId() + " successfully removed from " + course.getTitle());
+                return;
+            }
+        }
+        System.out.println("Course not found in the student's enrolled courses.");
+    }
+
+
+    public int getEnrolledCourseCount(){
+        int count = 0;
+        for (Course enrolledCourse : enrolledCourses) {
+            if (enrolledCourse != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // decrementTotalStudent
+    public static void decrementTotalStudent(){
+        TotalStudent--;
+    }
 }
 

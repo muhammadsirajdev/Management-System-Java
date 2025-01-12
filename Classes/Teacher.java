@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class Teacher extends Person implements Reportable {
+public class Teacher extends Person  {
     private int teacherId;
     private String specialization;
     private Course[] assignedCourses = new Course[5];
@@ -39,9 +39,20 @@ public class Teacher extends Person implements Reportable {
         return specialization;
     }
 
+    public Course[] getCourses(){
+        return assignedCourses;
+    }
 
     // setters 
 
+    // setTotalTeachers
+    public static void setTotalTeachers(int totalTeachers){
+        if (totalTeachers < 0) {
+            throw new IllegalArgumentException("Total Teachers cannot be less than 0");
+        }
+        Teacher.totalTeachers = totalTeachers;
+    }
+    
     public void setTeacherId(int teacherId) {
         if (teacherId < 0) {
             throw new IllegalArgumentException("Teacher ID cannot be less than 0");
@@ -57,14 +68,14 @@ public class Teacher extends Person implements Reportable {
     }
 
 
+                         // METHODS ASKED BY MAM
 
     public void assignCourse(Course course) {
         if (course == null) {
             throw new IllegalArgumentException("Course cannot be null");
         }
-        for (int i = 0; i < assignedCourses.length ; i++ ) {//as i've predefined that a teacher
-            //can only have 5 courses at max, so this for loop will add courses
-            if (assignedCourses[i] == null) {//checks for empty space
+        for (int i = 0; i < assignedCourses.length; i++) {
+            if (assignedCourses[i] == null) {
                 assignedCourses[i] = course;
                 System.out.println("Teacher " + getName() + " assigned to teach " + course.getTitle());
                 return;
@@ -72,7 +83,6 @@ public class Teacher extends Person implements Reportable {
         }
         System.out.println("Cannot assign more courses. Maximum limit reached.");
     }
-
 
     public void displayCourses() {
         System.out.println("All the courses taught by the teacher "+ super.getName()+ " are:");
@@ -85,6 +95,7 @@ public class Teacher extends Person implements Reportable {
         }
     }
 
+        
     @Override
     public void displayDetails(){
         super.displayDetails();
@@ -93,18 +104,17 @@ public class Teacher extends Person implements Reportable {
         
     }
 
-
     @Override
     public String toString(){
         String details = "Teacher Details:\n";
         details += "ID: " + teacherId + "\n";
         details += "Name: " + getName() + "\n";
         details += "Specialization: " + specialization + "\n";
-        details += "Total Courses: " + assignedCourses.length + "\n";
+        details += "Total Courses: " + getAssignedCourseCount() + "\n";
         return details;
     }
 
-    @Override
+    // @Override
     public String generateReport(ArrayList<Person> people) {
         String report = "Teacher Report Summary:\n";
         int courseCount = 0;
@@ -121,5 +131,54 @@ public class Teacher extends Person implements Reportable {
         report += "Total Courses Taught: " + courseCount + "\n";
 
         return report;
+    }
+
+
+                // ADDITIONAL METHODS FOR BETTER GUI EXPERIENCE (NOT ASKED BY MAM)
+
+    public int getAssignedCourseCount() {
+        int count = 0;
+        for (int i = 0; i < assignedCourses.length; i++) {
+            if (assignedCourses[i] != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+
+    public String getCourseDetails() {
+        if(getAssignedCourseCount() == 0){
+            return "No course has been assigned to the teacher";
+        }
+        
+        String details = "All the courses taught by the teacher "+ super.getName()+ " are:\n";
+        for (Course assignedCourse : assignedCourses) {
+            if (assignedCourse != null) {
+                details += "\nCourse id: " + assignedCourse.getCourseId() + " Course name: " + assignedCourse.getTitle();
+            }
+        }
+        return details;
+    }
+
+
+    // removeCourse method
+    public void removeCourse(Course course) {
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
+        }
+        for (int i = 0; i < assignedCourses.length; i++) {
+            if (assignedCourses[i] != null && assignedCourses[i].getCourseId() == course.getCourseId()) {
+                assignedCourses[i] = null;
+                System.out.println("Teacher " + getName() + " successfully removed from " + course.getTitle());
+                return;
+            }
+        }
+        System.out.println("Course not found in the teacher's assigned courses.");
+    }
+
+    //decrementTotalTeachers
+    public static void decrementTotalTeachers(){
+        totalTeachers--;
     }
 }
